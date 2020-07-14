@@ -42,7 +42,7 @@
                     </td>
                   </tr>
                 <% end %>
-              <% else %>
+              <% else if not @order.all_adjustments.eligible.tax.exists?%>
                 <tr>
                   <td class="six sub-columns">
                     Instalación:
