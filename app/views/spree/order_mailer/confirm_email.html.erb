@@ -42,7 +42,12 @@
                     </td>
                   </tr>
                 <% end %>
-              <% else if not @order.all_adjustments.eligible.tax.exists?%>
+              <% end %>
+              <% @order.adjustments.eligible.each do |adjustment| %>
+                <% next if (adjustment.source_type == 'Spree::TaxRate') || (adjustment.amount == 0) %>
+                <%= render 'spree/order_mailer/adjustment', adjustment: adjustment %>
+              <% end %>
+              <% if not @order.adjustments.eligible.exists?%>
                 <tr>
                   <td class="six sub-columns">
                     Instalación:
@@ -51,10 +56,6 @@
                     Pendiente
                   </td>
                 </tr>
-              <% end %>
-              <% @order.adjustments.eligible.each do |adjustment| %>
-                <% next if (adjustment.source_type == 'Spree::TaxRate') || (adjustment.amount == 0) %>
-                <%= render 'spree/order_mailer/adjustment', adjustment: adjustment %>
               <% end %>
               <%= render 'spree/order_mailer/total', order: @order %>
             </table>
