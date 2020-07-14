@@ -2,7 +2,7 @@
   <tr>
     <td>
       <p class="lede">
-        hola
+        <%= Spree.t('order_mailer.confirm_email.dear_customer') %>
       </p>
       <p>
         <%= Spree.t('order_mailer.confirm_email.instructions') %>
@@ -30,16 +30,7 @@
                   <% end %>
                 <% end %>
               <% end %>
-              <% @order.shipments.group_by { |s| s.selected_shipping_rate.try(:name) }.each do |name, shipments| %>
-                <tr>
-                  <td class="six sub-columns">
-                    <%= Spree.t(:shipping) %> <%= name %>:
-                  </td>
-                  <td class="six sub-columns last right">
-                    <%= Spree::Money.new(shipments.sum(&:discounted_cost), currency: @order.currency) %>
-                  </td>
-                </tr>
-              <% end %>
+
               <% if @order.all_adjustments.eligible.tax.exists? %>
                 <% @order.all_adjustments.eligible.tax.group_by(&:label).each do |label, adjustments| %>
                   <tr>
@@ -51,6 +42,15 @@
                     </td>
                   </tr>
                 <% end %>
+              <% else %>
+                <tr>
+                  <td class="six sub-columns">
+                    Instalación:
+                  </td>
+                  <td class="six sub-columns last right">
+                    Pendiente
+                  </td>
+                </tr>
               <% end %>
               <% @order.adjustments.eligible.each do |adjustment| %>
                 <% next if (adjustment.source_type == 'Spree::TaxRate') || (adjustment.amount == 0) %>
