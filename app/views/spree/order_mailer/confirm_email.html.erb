@@ -38,15 +38,16 @@
 
               <% @order.shipments.group_by { |s| s.selected_shipping_rate.try(:name) }.each do |name, shipments| %>
                 <% if name == "Sin Instalación"%>
-               <tr>
-                 <td class="six sub-columns">
-                   <%#= Spree.t(:shipping) %> <%= name %>:
-                 </td>
-                 <td class="six sub-columns last right">
-                   <%= Spree::Money.new(shipments.sum(&:discounted_cost), currency: @order.currency) %>
-                 </td>
-               </tr>
-             <% end %>
+                  <tr>
+                   <td class="six sub-columns">
+                     <%#= Spree.t(:shipping) %> <%= name %>:
+                   </td>
+                   <td class="six sub-columns last right">
+                     <%= Spree::Money.new(shipments.sum(&:discounted_cost), currency: @order.currency) %>
+                   </td>
+                  </tr>
+                <% end %>
+              <% end %>
 
               <% if @order.all_adjustments.eligible.tax.exists? %>
                 <% @order.all_adjustments.eligible.tax.group_by(&:label).each do |label, adjustments| %>
