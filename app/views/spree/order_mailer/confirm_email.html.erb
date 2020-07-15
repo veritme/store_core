@@ -16,11 +16,11 @@
       </p>
       <%if @instalacion == true %>
         <%if not @order.adjustments.eligible.exists?%>
-        <p>
-          En cuanto tengamos el valor de la instalación te llegara otro correo de confirmación.
-        </p>
+          <p>
+            En cuanto tengamos el valor de la instalación te llegara otro correo de confirmación.
+          </p>
         <%end%>
-      <% end %>
+      <%end%>
       <p>
         <%= Spree.t('order_mailer.confirm_email.order_summary', number: @order.number) %>
       </p>
