@@ -12,11 +12,12 @@
                 <tr>
                   <td class="twelve sub-columns last">
                     <% if frontend_available? %>
+                      <%@logo = Spree::Config.logo%>
                       <%= link_to spree.root_url, class: 'template-label' do %>
-                        <%= image_tag "#{spree.root_url}#{Spree::Config.logo}", class: 'logo', alt: Spree::Store.current.name, title: Spree::Store.current.name %>
+                        <%= image_tag "#{spree.root_url}#{@logo}", class: 'logo', alt: Spree::Store.current.name, title: Spree::Store.current.name %>
                       <% end %>
                     <% else %>
-                      <%= image_tag "#{spree.root_url}#{Spree::Config.logo}", class: 'logo', alt: Spree::Store.current.name, title: Spree::Store.current.name %>
+                      <%= image_tag "#{spree.root_url}#{@logo}", class: 'logo', alt: Spree::Store.current.name, title: Spree::Store.current.name %>
                     <% end %>
                   </td>
                   <td class="expander"></td>
