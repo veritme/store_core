@@ -1,6 +1,5 @@
 <% @order.shipments.group_by { |s| s.selected_shipping_rate.try(:name) }.each do |name, shipments| %>
   <% if name == "Sin Instalación"%>
-
     <% @instalacion = false %>
   <% else %>
     <% @instalacion = true %>
@@ -16,9 +15,11 @@
         <%= Spree.t('order_mailer.confirm_email.instructions') %>
       </p>
       <%if @instalacion == true %>
+        <%if not @order.adjustments.eligible.exists?%>
         <p>
           En cuanto tengamos el valor de la instalación te llegara otro correo de confirmación.
         </p>
+        <%end%>
       <% end %>
       <p>
         <%= Spree.t('order_mailer.confirm_email.order_summary', number: @order.number) %>
@@ -73,7 +74,7 @@
                 <% next if (adjustment.source_type == 'Spree::TaxRate') || (adjustment.amount == 0) %>
                 <%= render 'spree/order_mailer/adjustment', adjustment: adjustment %>
               <% end %>
-              <% if @instalacion == true%>
+              <% if not @order.adjustments.eligible.exists?%>
                 <tr>
                   <td class="six sub-columns">
                     Instalación:
